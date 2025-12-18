@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 5: Personal Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.2em;
+            font-style: italic;
+        }
+        section {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h2 {
+            color: #4CAF50;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .about-me {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .about-me p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+        }
+        .skills ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .skills li {
+            background-color: #e8f5e9;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #4CAF50;
+            font-size: 1.1em;
+        }
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .project-item {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .project-item h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+        footer p {
+            font-size: 1.1em;
+        }
+        footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Aswitha Chandra</h1>
+        <p>Full Stack Web Developer & Creative Designer</p>
+    </header>
+
+    <section class="about-me">
+        <h2>About Me</h2>
+        <p>
+            Hello! I'm a student passionate about web development and learning new 
+            technologies. I'm currently studying web development, focusing on HTML, 
+            CSS, and JavaScript. I love building websites and turning ideas into 
+            reality through code. When I'm not studying, you can find me practicing 
+            my coding skills, working on personal projects, and exploring the latest 
+            web development trends. I'm always eager to learn and grow as a developer!
+        </p>
+    </section>
+
+    <section class="skills">
+        <h2>Skills</h2>
+        <ul>
+            <li>HTML5 & CSS3</li>
+            <li>JavaScript & React</li>
+            <li>Node.js & Express</li>
+            <li>Python & Django</li>
+            <li>UI/UX Design</li>
+            <li>Git & Version Control</li>
+        </ul>
+    </section>
+
+    <section class="projects">
+        <h2 style="grid-column: 1 / -1;">Projects</h2>
+        <div class="project-item">
+            <h3>Music Streaming App</h3>
+            <p>A music streaming application with playlist management, search functionality, and user-friendly interface.</p>
+        </div>
+        <div class="project-item">
+            <h3>Task Management App</h3>
+            <p>A collaborative task management application with real-time updates and notifications.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>Contact me at: <a href="mailto:john.doe@gmail.com">easwithachandra@gmail.com</a></p>
+    </footer>
+</body>
+</html>
