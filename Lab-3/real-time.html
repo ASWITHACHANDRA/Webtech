@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Activity Monitor</title>
+    <style>
+        body { font-family: 'Courier New', monospace; padding: 20px; background-color: #f0f2f5; }
+        #monitorArea { border: 2px dashed #666; padding: 30px; margin-bottom: 20px; background: #fff; text-align: center; }
+        #logDisplay { background: #333; color: #0f0; padding: 15px; height: 300px; overflow-y: scroll; border-radius: 5px; }
+        .warning { color: #ff4d4d; font-weight: bold; border: 1px solid red; padding: 10px; margin: 10px 0; display: none; }
+        .controls { margin-top: 15px; }
+        input { padding: 8px; margin: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>Real-Time Activity Monitor</h2>
+    <div id="monitorArea">
+        <p>Interact here (Click, Type, or Focus on the input)</p>
+        <input type="text" id="trackInput" placeholder="Type something...">
+        <button id="trackButton">Click Me</button>
+    </div>
+
+    <div id="suspiciousWarning" class="warning">⚠️ WARNING: Suspicious activity detected (Rapid Clicking)!</div>
+
+    <div id="logDisplay">
+        <div>-- System Booted. Awaiting Activity... --</div>
+    </div>
+
+    <div class="controls">
+        <button onclick="resetLog()">Reset Log</button>
+        <button onclick="exportLog()">Export Log (.txt)</button>
+    </div>
+
+    <script src="monitor.js"></script>
+</body>
+</html>
