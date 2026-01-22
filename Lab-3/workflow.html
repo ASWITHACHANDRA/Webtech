@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi-Stage Workflow Engine</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; background-color: #f4f4f4; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+        .stage { display: none; }
+        .stage.active { display: block; }
+        .progress-container { background: #e0e0e0; border-radius: 10px; margin-bottom: 20px; }
+        #progressBar { height: 10px; width: 25%; background: #28a745; border-radius: 10px; transition: 0.3s; }
+        .error { color: red; font-size: 0.8em; margin-bottom: 10px; }
+        .controls { margin-top: 20px; }
+        button { padding: 10px 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="progress-container"><div id="progressBar"></div></div>
+    <form id="workflowForm">
+        <div class="stage active" id="stage1">
+            <h3>Stage 1: Personal Details</h3>
+            <label>Full Name:</label><br>
+            <input type="text" id="fullName" required><br>
+            <div id="err1" class="error"></div>
+            <div class="controls"><button type="button" onclick="nextStage(1)">Next</button></div>
+        </div>
+
+        <div class="stage" id="stage2">
+            <h3>Stage 2: Academic Information</h3>
+            <label>Registration Number:</label><br>
+            <input type="text" id="regNo" placeholder="22BCE..."><br>
+            <div id="err2" class="error"></div>
+            <div class="controls">
+                <button type="button" onclick="prevStage(2)">Back</button>
+                <button type="button" onclick="nextStage(2)">Next</button>
+            </div>
+        </div>
+
+        <div class="stage" id="stage3">
+            <h3>Stage 3: Role Assignment</h3>
+            <label>Select Role:</label><br>
+            <select id="userRole">
+                <option value="">--Select--</option>
+                <option value="Student">Student</option>
+                <option value="Admin">Admin</option>
+            </select><br>
+            <div id="err3" class="error"></div>
+            <div class="controls">
+                <button type="button" onclick="prevStage(3)">Back</button>
+                <button type="button" onclick="nextStage(3)">Next</button>
+            </div>
+        </div>
+
+        <div class="stage" id="stage4">
+            <h3>Stage 4: Review Details</h3>
+            <div id="summary"></div>
+            <div class="controls">
+                <button type="button" onclick="prevStage(4)">Back</button>
+                <button type="submit">Final Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="workflow.js"></script>
+</body>
+</html>
