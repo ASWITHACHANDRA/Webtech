@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intelligent Shopping Cart</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .product-list, .cart-section { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #eee; padding: 10px; text-align: left; }
+        .discount-info { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Smart Shopping Cart</h1>
+
+    <div class="product-list">
+        <h3>Available Products</h3>
+        <button onclick="addToCart('Laptop', 1000, 'Electronics')">Add Laptop ($1000)</button>
+        <button onclick="addToCart('Shirt', 50, 'Clothing')">Add Shirt ($50)</button>
+        <button onclick="addToCart('Keyboard', 100, 'Electronics')">Add Keyboard ($100)</button>
+    </div>
+
+    <div class="cart-section">
+        <h3>Your Cart</h3>
+        <table id="cartTable">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="cartBody"></tbody>
+        </table>
+
+        <div style="margin-top: 15px;">
+            <input type="text" id="couponInput" placeholder="Enter Coupon Code (e.g., SAVE10)">
+            <button onclick="applyCoupon()">Apply Coupon</button>
+        </div>
+
+        <h4>Subtotal: $<span id="subtotal">0</span></h4>
+        <h4 class="discount-info">Discounts Applied: $<span id="discountTotal">0</span></h4>
+        <h2>Total: $<span id="finalTotal">0</span></h2>
+    </div>
+
+    <script src="cart.js"></script>
+</body>
+</html>
