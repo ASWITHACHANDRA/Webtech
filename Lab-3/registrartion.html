@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adaptive Registration System</title>
+    <style>
+        .error-msg { color: #dc3545; font-size: 12px; margin-top: 5px; display: none; }
+        .invalid { border: 2px solid #dc3545 !important; }
+        .valid { border: 2px solid #28a745 !important; }
+        .hidden { display: none; }
+        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+        input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        body { font-family: sans-serif; padding: 20px; max-width: 500px; }
+    </style>
+</head>
+<body>
+    <h2>Registration Form [cite: 1]</h2>
+    <form id="regForm" novalidate>
+        <div class="form-group">
+            <label>Full Name:</label>
+            <input type="text" id="name" placeholder="Enter name">
+            <span id="nameError" class="error-msg">Name is required</span>
+        </div>
+
+        <div class="form-group">
+            <label>Role:</label>
+            <select id="role">
+                <option value="Student">Student</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="skillsContainer">
+            <label>Skills:</label>
+            <input type="text" id="skills" placeholder="Java, Python, etc.">
+        </div>
+
+        <div class="form-group">
+            <label>Age:</label>
+            <input type="number" id="age">
+            <span id="ageError" class="error-msg">Must be 18 or older</span>
+        </div>
+
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" id="email" placeholder="example@vitap.ac.in">
+            <span id="emailError" class="error-msg">Invalid domain (use .com, .in, or .edu)</span>
+        </div>
+
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" id="password">
+            <span id="passwordError" class="error-msg">Password doesn't meet role requirements</span>
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Password:</label>
+            <input type="password" id="confirmPassword">
+            <span id="confirmError" class="error-msg">Passwords do not match</span>
+        </div>
+
+        <button type="submit" style="padding: 10px; cursor: pointer;">Register</button>
+    </form>
+
+    <script src="regis.js"></script>
+</body>
+</html>
