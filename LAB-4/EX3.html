@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #7f0000, #e53935);
+            padding: 40px 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .form-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        input {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ffcdd2;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #e53935;
+            box-shadow: 0 0 6px rgba(229,57,53,0.4);
+        }
+
+        .btn-group {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 16px;
+            margin: 6px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .add-btn {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .update-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .edit-btn {
+            background: #ff8a80;
+            color: black;
+        }
+
+        .delete-btn {
+            background: #b71c1c;
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .message {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th {
+            background: #d32f2f;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        tr:hover {
+            background: #ffebee;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>🔴 Student Management System (AJAX CRUD)</h2>
+
+<div class="container">
+
+    <!-- Form -->
+    <div class="form-section">
+        <input type="text" id="id" placeholder="Student ID">
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="dept" placeholder="Department">
+        <input type="number" id="marks" placeholder="Marks">
+    </div>
+
+    <div class="btn-group">
+        <button class="add-btn" onclick="addStudent()">Add</button>
+        <button class="update-btn" onclick="updateStudent()">Update</button>
+    </div>
+
+    <div class="message" id="message"></div>
+
+    <!-- Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Marks</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="studentTable"></tbody>
+    </table>
+
+</div>
+
+<script>
+const API_URL = "http://localhost:3000/students";
+
+function showMessage(msg, isError = false) {
+    const messageDiv = document.getElementById("message");
+    messageDiv.innerText = msg;
+    messageDiv.style.color = isError ? "#b71c1c" : "#2e7d32";
+}
+
+function fetchStudents() {
+    fetch(API_URL)
+        .then(res => res.json())
+        .then(data => {
+            const table = document.getElementById("studentTable");
+            table.innerHTML = "";
+
+            data.forEach(student => {
+                table.innerHTML += `
+                    <tr>
+                        <td>${student.id}</td>
+                        <td>${student.name}</td>
+                        <td>${student.department}</td>
+                        <td>${student.marks}</td>
+                        <td>
+                            <button class="edit-btn" onclick="editStudent('${student.id}','${student.name}','${student.department}','${student.marks}')">Edit</button>
+                            <button class="delete-btn" onclick="deleteStudent('${student.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        });
+}
+
+function addStudent() {
+    const student = {
+        id: id.value,
+        name: name.value,
+        department: dept.value,
+        marks: marks.value
+    };
+
+    fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(student)
+    })
+    .then(res => {
+        if (res.status === 200) {
+            showMessage("Student Added Successfully");
+            fetchStudents();
+        } else {
+            showMessage("Error Adding Student", true);
+        }
+    });
+}
+
+function updateStudent() {
+    const idVal = id.value;
+
+    const student = {
+        id: idVal,
+        name: name.value,
+        department: dept.value,
+        marks: marks.value
+    };
+
+    fetch(`${API_URL}/${idVal}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(student)
+    })
+    .then(res => {
+        if (res.status === 200) {
+            showMessage("Student Updated Successfully");
+            fetchStudents();
+        } else if (res.status === 404) {
+            showMessage("Student Not Found", true);
+        } else {
+            showMessage("Server Error", true);
+        }
+    });
+}
+
+function deleteStudent(idVal) {
+    fetch(`${API_URL}/${idVal}`, { method: "DELETE" })
+    .then(res => {
+        if (res.status === 200) {
+            showMessage("Student Deleted Successfully");
+            fetchStudents();
+        } else if (res.status === 404) {
+            showMessage("Student Not Found", true);
+        } else {
+            showMessage("Server Error", true);
+        }
+    });
+}
+
+function editStudent(idVal, nameVal, deptVal, marksVal) {
+    id.value = idVal;
+    name.value = nameVal;
+    dept.value = deptVal;
+    marks.value = marksVal;
+}
+
+fetchStudents();
+</script>
+
+</body>
+</html>

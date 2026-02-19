@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "iPhone 14", "price": 79999, "category": "Mobile" },
+  { "id": 2, "name": "Samsung Galaxy S23", "price": 74999, "category": "Mobile" },
+  { "id": 3, "name": "Dell Laptop", "price": 55999, "category": "Laptop" },
+  { "id": 4, "name": "HP Pavilion", "price": 49999, "category": "Laptop" },
+  { "id": 5, "name": "Sony Headphones", "price": 2999, "category": "Accessories" },
+  { "id": 6, "name": "Boat Earbuds", "price": 1499, "category": "Accessories" }
+]
