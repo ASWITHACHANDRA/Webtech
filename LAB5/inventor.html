@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Inventory System</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background: #f2f2f2; }
+        input { padding: 6px; margin: 5px; }
+        button { padding: 6px 10px; margin: 3px; }
+        .error { color: red; }
+        .success { color: green; }
+        .low-stock { background-color: #ffe6e6; } /* Conditional formatting */
+    </style>
+</head>
+<body>
+
+<h2>Product Inventory System</h2>
+
+<div>
+    <input type="number" id="productId" placeholder="Product ID">
+    <input type="text" id="productName" placeholder="Name">
+    <input type="text" id="productCategory" placeholder="Category">
+    <input type="number" id="productPrice" placeholder="Price">
+    <input type="number" id="productStock" placeholder="Stock">
+    <button onclick="addProduct()">Add Product</button>
+</div>
+
+<br>
+
+<div>
+    <input type="text" id="searchCategory" placeholder="Search by Category">
+    <button onclick="searchByCategory()">Search</button>
+    <button onclick="displayProducts()">Show All</button>
+</div>
+
+<p id="message"></p>
+
+<h3>Total Inventory Value: ₹ <span id="totalValue">0</span></h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="inventoryTable"></tbody>
+</table>
+
+<script>
+
+let productsData = [];
+
+
+function loadProducts() {
+    fetch("inventory.json")
+        .then(response => {
+            if (!response.ok)
+                throw new Error("HTTP Error: " + response.status);
+            return response.json();
+        })
+        .then(data => {
+            if (!data.products || !Array.isArray(data.products))
+                throw new Error("Invalid JSON structure");
+
+            productsData = data.products;
+            displayProducts();
+        })
+        .catch(error => {
+            showMessage("Error loading JSON: " + error.message, true);
+        });
+}
+
+
+function displayProducts(filteredData = null) {
+
+    const table = document.getElementById("inventoryTable");
+    table.innerHTML = "";
+
+    let data = filteredData || productsData;
+
+    if (data.length === 0) {
+        showMessage("No products found!", true);
+        updateTotalValue([]);
+        return;
+    }
+
+    data.forEach(product => {
+
+        let lowStockClass = product.stock < 5 ? "low-stock" : "";
+
+        table.innerHTML += `
+            <tr class="${lowStockClass}">
+                <td>${product.id}</td>
+                <td>${product.name}</td>
+                <td>${product.category}</td>
+                <td>${product.price}</td>
+                <td>${product.stock}</td>
+                <td>
+                    <button onclick="editProduct(${product.id})">Edit</button>
+                    <button onclick="deleteProduct(${product.id})">Delete</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    updateTotalValue(data);
+    showMessage("Inventory loaded successfully!", false);
+}
+
+
+function addProduct() {
+
+    let id = parseInt(document.getElementById("productId").value);
+    let name = document.getElementById("productName").value.trim();
+    let category = document.getElementById("productCategory").value.trim();
+    let price = parseFloat(document.getElementById("productPrice").value);
+    let stock = parseInt(document.getElementById("productStock").value);
+
+    if (!id || !name || !category || isNaN(price) || isNaN(stock)) {
+        showMessage("All fields must be valid!", true);
+        return;
+    }
+
+    if (productsData.some(p => p.id === id)) {
+        showMessage("Product ID already exists!", true);
+        return;
+    }
+
+    productsData.push({ id, name, category, price, stock });
+    displayProducts();
+    showMessage("Product added successfully!", false);
+}
+
+
+function editProduct(id) {
+
+    let product = productsData.find(p => p.id === id);
+
+    if (!product) {
+        showMessage("Product not found!", true);
+        return;
+    }
+
+    let newPrice = prompt("Enter new Price:", product.price);
+    let newStock = prompt("Enter new Stock:", product.stock);
+
+    if (isNaN(parseFloat(newPrice)) || isNaN(parseInt(newStock))) {
+        showMessage("Invalid input!", true);
+        return;
+    }
+
+    product.price = parseFloat(newPrice);
+    product.stock = parseInt(newStock);
+
+    displayProducts();
+    showMessage("Product updated successfully!", false);
+}
+
+
+function deleteProduct(id) {
+
+    let index = productsData.findIndex(p => p.id === id);
+
+    if (index === -1) {
+        showMessage("Product not found!", true);
+        return;
+    }
+
+    productsData.splice(index, 1);
+    displayProducts();
+    showMessage("Product deleted successfully!", false);
+}
+
+
+function searchByCategory() {
+
+    let category = document.getElementById("searchCategory").value.trim();
+
+    if (!category) {
+        showMessage("Enter category to search!", true);
+        return;
+    }
+
+    let filtered = productsData.filter(p =>
+        p.category.toLowerCase() === category.toLowerCase()
+    );
+
+    displayProducts(filtered);
+}
+
+
+function updateTotalValue(data) {
+
+    let total = data.reduce((sum, product) =>
+        sum + (product.price * product.stock), 0
+    );
+
+    document.getElementById("totalValue").innerText = total.toFixed(2);
+}
+
+
+function showMessage(msg, isError) {
+    let message = document.getElementById("message");
+    message.innerText = msg;
+    message.className = isError ? "error" : "success";
+}
+
+window.onload = loadProducts;
+
+</script>
+
+</body>
+</html>

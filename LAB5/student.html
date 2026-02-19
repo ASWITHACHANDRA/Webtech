@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Record System (Local JSON)</title>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background: #f2f2f2; }
+        input { padding: 6px; margin: 5px; }
+        button { padding: 6px 10px; margin: 3px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+
+<h2>Student Record System (Local JSON)</h2>
+
+<div>
+    <input type="number" id="studentId" placeholder="Student ID">
+    <input type="text" id="studentName" placeholder="Name">
+    <input type="text" id="studentCourse" placeholder="Course">
+    <input type="number" id="studentMarks" placeholder="Marks">
+    <button onclick="addStudent()">Add Student</button>
+</div>
+
+<p id="message"></p>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Marks</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="studentTable"></tbody>
+</table>
+
+<script>
+
+let studentsData = [];
+
+
+function loadStudents() {
+
+    fetch("students.json")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP error! Status: " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            if (!data.students || !Array.isArray(data.students)) {
+                throw new Error("Invalid JSON structure!");
+            }
+
+            studentsData = data.students;
+            displayStudents();
+
+        })
+        .catch(error => {
+            showMessage("Error loading JSON: " + error.message, true);
+        });
+}
+
+
+function displayStudents() {
+
+    const table = document.getElementById("studentTable");
+    table.innerHTML = "";
+
+    if (studentsData.length === 0) {
+        showMessage("No student records found!", true);
+        return;
+    }
+
+    studentsData.forEach(student => {
+
+        table.innerHTML += `
+            <tr>
+                <td>${student.id}</td>
+                <td>${student.name}</td>
+                <td>${student.course}</td>
+                <td>${student.marks}</td>
+                <td>
+                    <button onclick="updateStudent(${student.id})">Update</button>
+                    <button onclick="deleteStudent(${student.id})">Delete</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    showMessage("Students loaded successfully!", false);
+}
+
+
+function addStudent() {
+
+    let id = parseInt(document.getElementById("studentId").value);
+    let name = document.getElementById("studentName").value.trim();
+    let course = document.getElementById("studentCourse").value.trim();
+    let marks = parseInt(document.getElementById("studentMarks").value);
+
+    
+    if (!id || !name || !course || isNaN(marks)) {
+        showMessage("All fields are required and must be valid!", true);
+        return;
+    }
+
+    if (studentsData.some(student => student.id === id)) {
+        showMessage("Student ID already exists!", true);
+        return;
+    }
+
+    studentsData.push({ id, name, course, marks });
+
+    displayStudents();
+    showMessage("Student added successfully!", false);
+}
+
+
+function updateStudent(id) {
+
+    let student = studentsData.find(s => s.id === id);
+
+    if (!student) {
+        showMessage("Student not found!", true);
+        return;
+    }
+
+    let newCourse = prompt("Enter new Course:", student.course);
+    let newMarks = prompt("Enter new Marks:", student.marks);
+
+    if (!newCourse || isNaN(parseInt(newMarks))) {
+        showMessage("Invalid input!", true);
+        return;
+    }
+
+    student.course = newCourse.trim();
+    student.marks = parseInt(newMarks);
+
+    displayStudents();
+    showMessage("Student updated successfully!", false);
+}
+
+
+function deleteStudent(id) {
+
+    let index = studentsData.findIndex(s => s.id === id);
+
+    if (index === -1) {
+        showMessage("Student not found!", true);
+        return;
+    }
+
+    studentsData.splice(index, 1);
+
+    displayStudents();
+    showMessage("Student deleted successfully!", false);
+}
+
+
+function showMessage(msg, isError) {
+    let message = document.getElementById("message");
+    message.innerText = msg;
+    message.className = isError ? "error" : "success";
+}
+
+window.onload = loadStudents;
+
+</script>
+
+</body>
+</html>
