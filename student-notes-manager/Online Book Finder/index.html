@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Book Finder</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI, sans-serif;
+}
+
+body{
+background:linear-gradient(120deg,#1d2b64,#f8cdda);
+min-height:100vh;
+color:#333;
+}
+
+header{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(10px);
+padding:20px;
+text-align:center;
+color:white;
+font-size:28px;
+font-weight:bold;
+letter-spacing:1px;
+}
+
+.container{
+width:90%;
+max-width:1100px;
+margin:auto;
+margin-top:30px;
+}
+
+.controls{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(15px);
+border-radius:15px;
+padding:20px;
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+color:white;
+}
+
+.card h2{
+margin-bottom:15px;
+font-size:18px;
+}
+
+input{
+width:100%;
+padding:10px;
+border:none;
+border-radius:8px;
+margin-bottom:10px;
+}
+
+button{
+padding:10px 14px;
+border:none;
+border-radius:8px;
+background:#ffffff;
+color:#333;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+margin:5px 3px;
+}
+
+button:hover{
+transform:scale(1.05);
+background:#ffdd57;
+}
+
+.book-section{
+margin-top:30px;
+}
+
+.book-section h2{
+color:white;
+margin-bottom:15px;
+}
+
+#bookContainer{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.book{
+background:white;
+padding:15px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+transition:0.3s;
+}
+
+.book:hover{
+transform:translateY(-5px);
+}
+
+.book h3{
+margin-bottom:8px;
+}
+
+.book p{
+font-size:14px;
+margin:4px 0;
+}
+
+.price{
+color:#27ae60;
+font-weight:bold;
+}
+
+.rating{
+color:#f39c12;
+font-weight:bold;
+}
+
+.pagination{
+margin-top:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+📚 Online Book Finder
+</header>
+
+<div class="container">
+
+<div class="controls">
+
+<div class="card">
+<h2><i class="fa fa-search"></i> Search Book</h2>
+<input type="text" id="searchTitle" placeholder="Enter book title">
+<button onclick="searchBook()">Search</button>
+</div>
+
+<div class="card">
+<h2><i class="fa fa-filter"></i> Filter Category</h2>
+<input type="text" id="category" placeholder="Enter category">
+<button onclick="filterCategory()">Filter</button>
+</div>
+
+<div class="card">
+<h2><i class="fa fa-sort"></i> Sort Books</h2>
+<button onclick="sortBooks('price')">Sort by Price</button>
+<button onclick="sortBooks('rating')">Sort by Rating</button>
+</div>
+
+<div class="card">
+<h2><i class="fa fa-star"></i> Top Rated</h2>
+<button onclick="topBooks()">Show Top Rated</button>
+</div>
+
+<div class="card">
+<h2><i class="fa fa-book-open"></i> Pagination</h2>
+<div class="pagination">
+<button onclick="loadPage(1)">Page 1</button>
+<button onclick="loadPage(2)">Page 2</button>
+</div>
+</div>
+
+</div>
+
+<div class="book-section">
+<h2>Available Books</h2>
+<div id="bookContainer"></div>
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
