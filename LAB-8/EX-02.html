@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Profile</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+    }
+
+    .profile-card {
+      background: var(--card);
+      width: 100%;
+      max-width: 460px;
+      border-radius: 1rem;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .header {
+      background: var(--primary);
+      color: white;
+      padding: 1.4rem;
+      text-align: center;
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    .form {
+      padding: 1.8rem 1.6rem;
+    }
+
+    .field {
+      margin-bottom: 1.4rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-light);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.6rem;
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+
+    button {
+      flex: 1;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 0.6rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-submit { background: var(--primary); color: white; }
+    .btn-submit:hover { background: var(--primary-dark); }
+    .btn-reset  { background: #ef4444; color: white; }
+    .btn-reset:hover { background: #dc2626; }
+
+    #result {
+      margin: 1.8rem 1.6rem 1.6rem;
+      padding: 1.4rem;
+      background: #f1f5f9;
+      border-radius: 0.8rem;
+      display: none;
+    }
+
+    #result.show { display: block; }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .result-row:last-child { border-bottom: none; }
+
+    .result-label { color: var(--text-light); font-weight: 500; }
+    .result-value { font-weight: 600; color: var(--primary); }
+  </style>
+</head>
+<body>
+
+<div class="profile-card">
+  <div class="header">Student Profile</div>
+
+  <div class="form">
+    <div class="field">
+      <label>Student ID</label>
+      <input type="number" id="id" placeholder="Student ID">
+    </div>
+
+    <div class="field">
+      <label>Name</label>
+      <input type="text" id="name" placeholder="Full name">
+    </div>
+
+    <div class="field">
+      <label>Department</label>
+      <select id="department">
+        <option value="">Select department</option>
+        <option>CSE</option>
+        <option>ECE</option>
+        <option>ME</option>
+        <option>CE</option>
+        <option>AI & DS</option>
+        <option>ISE</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Marks (out of 100)</label>
+      <input type="number" id="marks" min="0" max="100" placeholder="Marks">
+    </div>
+
+    <div class="actions">
+      <button class="btn-submit" onclick="generate()">Generate</button>
+      <button class="btn-reset" onclick="clearAll()">Clear</button>
+    </div>
+
+    <div id="result">
+      <div class="result-row"><span class="result-label">ID</span><span class="result-value" id="r-id"></span></div>
+      <div class="result-row"><span class="result-label">Name</span><span class="result-value" id="r-name"></span></div>
+      <div class="result-row"><span class="result-label">Department</span><span class="result-value" id="r-dept"></span></div>
+      <div class="result-row"><span class="result-label">Marks</span><span class="result-value" id="r-marks"></span></div>
+      <div class="result-row"><span class="result-label">Grade</span><span class="result-value" id="r-grade"></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const getGrade = m => {
+  if (m >= 90) return "A";
+  if (m >= 80) return "B";
+  if (m >= 70) return "C";
+  if (m >= 60) return "D";
+  if (m >= 50) return "E";
+  return "F";
+};
+
+function generate() {
+  const student = {
+    id: Number(document.getElementById("id").value) || 0,
+    name: document.getElementById("name").value.trim() || "—",
+    department: document.getElementById("department").value || "—",
+    marks: Number(document.getElementById("marks").value) || 0
+  };
+
+  const { id, name, department, marks } = student;
+
+  const updated = {
+    ...student,
+    grade: getGrade(marks)
+  };
+
+  document.getElementById("r-id").textContent    = id;
+  document.getElementById("r-name").textContent  = name;
+  document.getElementById("r-dept").textContent  = department;
+  document.getElementById("r-marks").textContent = marks;
+  document.getElementById("r-grade").textContent = updated.grade;
+
+  document.getElementById("result").classList.add("show");
+}
+
+function clearAll() {
+  document.getElementById("id").value = "";
+  document.getElementById("name").value = "";
+  document.getElementById("department").value = "";
+  document.getElementById("marks").value = "";
+  document.getElementById("result").classList.remove("show");
+}
+</script>
+</body>
+</html>

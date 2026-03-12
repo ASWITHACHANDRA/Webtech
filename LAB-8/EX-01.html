@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Marks Calculator</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+    }
+
+    .calculator {
+      background: var(--card);
+      width: 100%;
+      max-width: 420px;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: var(--primary);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .form {
+      padding: 1.8rem 1.5rem;
+    }
+
+    .field {
+      margin-bottom: 1.4rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-light);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.6rem;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.6rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    #result {
+      margin: 1.5rem 1.5rem 0;
+      padding: 1.5rem;
+      background: #f1f5f9;
+      border-radius: 0.8rem;
+      text-align: center;
+      display: none;
+    }
+
+    #result.show {
+      display: block;
+    }
+
+    .result-line {
+      font-size: 1.15rem;
+      margin: 0.8rem 0;
+      font-weight: 500;
+    }
+
+    .result-line strong {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <div class="header">Student Marks Calculator</div>
+
+    <div class="form">
+      <div class="field">
+        <label>Student Name</label>
+        <input type="text" id="studentName" placeholder="Enter student name" required>
+      </div>
+
+      <div class="field">
+        <label>Mark 1</label>
+        <input type="number" id="mark1" min="0" max="100" placeholder="0 – 100" required>
+      </div>
+
+      <div class="field">
+        <label>Mark 2</label>
+        <input type="number" id="mark2" min="0" max="100" placeholder="0 – 100" required>
+      </div>
+
+      <div class="field">
+        <label>Mark 3</label>
+        <input type="number" id="mark3" min="0" max="100" placeholder="0 – 100" required>
+      </div>
+
+      <button class="btn" onclick="calculateMarks()">Calculate</button>
+
+      <div id="result">
+        <div class="result-line"><strong id="nameOutput"></strong></div>
+        <div class="result-line">Total: <strong id="totalOutput"></strong></div>
+        <div class="result-line">Average: <strong id="avgOutput"></strong></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const calculateAverage = (m1, m2, m3) => (m1 + m2 + m3) / 3;
+
+    function calculateMarks() {
+      const name = document.getElementById('studentName').value.trim() || "—";
+      const m1 = Number(document.getElementById('mark1').value) || 0;
+      const m2 = Number(document.getElementById('mark2').value) || 0;
+      const m3 = Number(document.getElementById('mark3').value) || 0;
+
+      const total = m1 + m2 + m3;
+      const avg = calculateAverage(m1, m2, m3);
+
+      document.getElementById('nameOutput').textContent = name;
+      document.getElementById('totalOutput').textContent = total;
+      document.getElementById('avgOutput').textContent = avg.toFixed(2);
+
+      document.getElementById('result').classList.add('show');
+    }
+  </script>
+
+</body>
+</html>

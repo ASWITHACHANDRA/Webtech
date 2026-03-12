@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Course Enrollment</title>
+  <style>
+    :root {
+      --bg: #f0f2f5;
+      --card: #ffffff;
+      --primary: #5b21b6;
+      --primary-light: #7c3aed;
+      --success: #059669;
+      --danger: #dc2626;
+      --text: #111827;
+      --text-light: #6b7280;
+      --border: #d1d5db;
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+      --shadow-inset: inset 0 2px 4px rgba(0,0,0,0.06);
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      color: var(--text);
+    }
+
+    .enroll-wrapper {
+      background: var(--card);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 460px;
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+    }
+
+    .content {
+      padding: 2rem 1.8rem 2.2rem;
+    }
+
+    .course-card {
+      background: rgba(243, 244, 246, 0.6);
+      border-radius: 1.2rem;
+      padding: 1.6rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      border: 1px solid rgba(91,33,182,0.08);
+      backdrop-filter: blur(6px);
+    }
+
+    .course-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.8rem;
+    }
+
+    .instructor {
+      color: var(--text-light);
+      font-size: 1.05rem;
+      margin: 0.4rem 0 1.2rem;
+    }
+
+    .progress-circle {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      margin: 1.2rem auto;
+    }
+
+    .circle-bg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .circle {
+      fill: none;
+      stroke: #e5e7eb;
+      stroke-width: 8;
+    }
+
+    .circle-progress {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 8;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      transition: stroke-dashoffset 0.6s ease;
+    }
+
+    .circle-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .seats-info {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      margin-top: 0.6rem;
+    }
+
+    .low .circle-progress { stroke: #f59e0b; }
+    .full .circle-progress { stroke: var(--danger); }
+
+    button {
+      width: 100%;
+      padding: 1.15rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: all 0.22s;
+      margin: 0.6rem 0;
+    }
+
+    .btn-enroll {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-enroll:hover:not(:disabled) {
+      background: #047857;
+      transform: translateY(-1px);
+    }
+
+    .btn-enroll:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      opacity: 0.75;
+    }
+
+    .btn-reset {
+      background: #f3f4f6;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    .btn-reset:hover {
+      background: #fee2e2;
+    }
+
+    #message {
+      margin-top: 1.6rem;
+      padding: 1.3rem;
+      border-radius: 1rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+      text-align: center;
+      display: none;
+      animation: fadeInUp 0.4s ease;
+    }
+
+    #message.success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    #message.error {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="enroll-wrapper">
+    <div class="header">
+      <h1>Course Enrollment</h1>
+    </div>
+
+    <div class="content">
+      <div class="course-card" id="courseCard">
+        <div class="course-title" id="courseName">Web Technologies</div>
+        <div class="instructor">Instructor: S Gopi Krishna</div>
+
+        <div class="progress-circle">
+          <svg class="circle-bg" viewBox="0 0 120 120">
+            <circle class="circle" cx="60" cy="60" r="52"></circle>
+            <circle class="circle-progress" id="progressCircle" cx="60" cy="60" r="52" stroke-dasharray="327" stroke-dashoffset="327"></circle>
+          </svg>
+          <div class="circle-text" id="seatsPercent">100%</div>
+        </div>
+
+        <div class="seats-info">
+          <span id="seatsText">25 / 25 seats remaining</span>
+        </div>
+      </div>
+
+      <button class="btn-enroll" id="enrollBtn" onclick="enrollStudent()">Enroll Now</button>
+      <button class="btn-reset" onclick="resetCourse()">Reset Course</button>
+
+      <div id="message"></div>
+    </div>
+  </div>
+
+  <script>
+    class Course {
+      constructor(name = "Web Technologies", maxSeats = 25) {
+        this.name = name;
+        this.instructor = "S Gopi Krishna";
+        this.maxSeats = maxSeats;
+        this.enrolled = 0;
+      }
+
+      get remaining() { return this.maxSeats - this.enrolled; }
+      get percent()   { return Math.round((this.enrolled / this.maxSeats) * 100); }
+      get isFull()    { return this.remaining <= 0; }
+
+      enroll() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (!this.isFull) {
+              this.enrolled++;
+              resolve("Enrollment Successful 🎉");
+            } else {
+              reject("Course Full – No seats left");
+            }
+          }, 800);
+        });
+      }
+    }
+
+    let course = new Course();
+
+    const CIRCUMFERENCE = 327; // 2 * π * 52
+
+    function updateUI() {
+      document.getElementById("courseName").textContent = course.name;
+      document.getElementById("seatsText").textContent = 
+        `${course.remaining} / ${course.maxSeats} seats remaining`;
+
+      const percent = course.percent;
+      const offset = CIRCUMFERENCE - (percent / 100) * CIRCUMFERENCE;
+
+      document.getElementById("progressCircle").style.strokeDashoffset = offset;
+      document.getElementById("seatsPercent").textContent = `${100 - percent}%`;
+
+      const card = document.getElementById("courseCard");
+      card.classList.remove("low", "full");
+
+      if (course.remaining <= 3 && course.remaining > 0) {
+        card.classList.add("low");
+      } else if (course.isFull) {
+        card.classList.add("full");
+      }
+
+      const btn = document.getElementById("enrollBtn");
+      btn.disabled = course.isFull;
+      btn.textContent = course.isFull ? "Course Full" : "Enroll Now";
+    }
+
+    function showMessage(text, type = "success") {
+      const msg = document.getElementById("message");
+      msg.textContent = text;
+      msg.className = type;
+      msg.style.display = "block";
+      setTimeout(() => msg.style.display = "none", 4200);
+    }
+
+    async function enrollStudent() {
+      try {
+        const result = await course.enroll();
+        showMessage(result, "success");
+      } catch (err) {
+        showMessage(err, "error");
+      }
+      updateUI();
+    }
+
+    function resetCourse() {
+      course = new Course();
+      document.getElementById("message").style.display = "none";
+      updateUI();
+    }
+
+    // Initial render
+    updateUI();
+  </script>
+
+</body>
+</html>
