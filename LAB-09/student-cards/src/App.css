@@ -1,0 +1,87 @@
+.App {
+  text-align: center;
+  padding: 20px;
+  background-color: #f0f4f8;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.student-list h2 {
+  color: #444;
+  margin-bottom: 30px;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.student-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+}
+
+.student-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.card-header h3 {
+  margin: 0;
+  color: #222;
+  font-size: 1.5rem;
+}
+
+.roll-no {
+  background-color: #667eea;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.card-body p {
+  margin: 14px 0;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.card-body strong {
+  color: #333;
+  display: inline-block;
+  width: 110px;
+}
+
+.grade {
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 1.05rem;
+}
+
+.grade.a-plus, .grade.a { background-color: #d4edda; color: #155724; }
+.grade.b { background-color: #fff3cd; color: #856404; }
+.grade.c { background-color: #cce5ff; color: #004085; }
+.grade.d { background-color: #f8d7da; color: #721c24; }

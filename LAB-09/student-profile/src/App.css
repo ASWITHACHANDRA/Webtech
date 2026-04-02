@@ -1,0 +1,62 @@
+.App {
+  text-align: center;
+  padding: 20px;
+  background-color: #f4f7fa;
+  min-height: 100vh;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.profile-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  overflow: hidden;
+}
+
+.profile-header {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 20px;
+}
+
+.profile-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.profile-body {
+  padding: 30px 25px;
+}
+
+.profile-info h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 28px;
+}
+
+.profile-details p {
+  font-size: 18px;
+  margin: 15px 0;
+  color: #555;
+}
+
+.profile-details strong {
+  color: #333;
+  width: 140px;
+  display: inline-block;
+}
+
+.profile-footer {
+  background-color: #f8f9fa;
+  padding: 15px;
+  color: #777;
+  font-size: 14px;
+  border-top: 1px solid #eee;
+}
